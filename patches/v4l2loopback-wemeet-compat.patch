@@ -1,0 +1,21 @@
+--- a/v4l2loopback.c
++++ b/v4l2loopback.c
+@@ -1832,6 +1832,7 @@
+ 	bufd = &dev->buffers[index];
+ 
+ 	switch (buf->memory) {
++	case 0: /* WEMEET-COMPAT-PATCH: Tencent Meeting leaves memory unset */
+ 	case V4L2_MEMORY_MMAP:
+ 		if (!(bufd->buffer.flags & V4L2_BUF_FLAG_MAPPED))
+ 			dprintkrw("QBUF() unmapped buffer [index=%u]\n", index);
+@@ -1974,8 +1975,8 @@
+ 	int index;
+ 	struct v4l2l_buffer *bufd;
+ 
+-	if (buf->memory != V4L2_MEMORY_MMAP)
+-		return -EINVAL;
++	if (buf->memory != V4L2_MEMORY_MMAP && buf->memory != 0)
++		return -EINVAL; /* WEMEET-COMPAT-PATCH: accept memory=0 */
+ 	if (opener->format_token & V4L2L_TOKEN_TIMEOUT) {
+ 		*buf = dev->timeout_buffer.buffer;
+ 		buf->type = type;

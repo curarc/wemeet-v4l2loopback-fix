@@ -1,0 +1,9 @@
+# 编辑器/临时文件
+*.swp
+*~
+.DS_Store
+
+# 本地测试产物
+test_dqbuf
+srctest/
+*.o
