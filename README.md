@@ -6,6 +6,10 @@ Cheese、Zoom 等几乎所有软件中都能正常显示画面,**唯独在腾讯
 
 本仓库提供一个**一键修复脚本**,并对问题根因做了完整的技术分析。
 
+**修复后效果**(腾讯会议视频设置中,「OBS Virtual Camera」实时预览正常):
+
+![修复后腾讯会议中 OBS 虚拟摄像机正常显示](docs/wemeet-after-fix.png)
+
 > 🇬🇧 [English summary at the bottom](#english-summary)
 
 ## 问题现象
