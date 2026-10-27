@@ -113,10 +113,35 @@ curl -fsSL https://raw.githubusercontent.com/zezhengjiang/wemeet-v4l2loopback-fi
 ```bash
 # OBS 虚拟摄像机保持运行,编译并运行:
 gcc -o test_dqbuf tools/test_dqbuf.c
-./test_dqbuf
-# 未打补丁的驱动输出:
-#   DQBUF memory=MMAP : 0 (成功)
-#   DQBUF memory=0    : -1 EINVAL   ← 腾讯会议黑屏的根源
+./test_dqbuf /dev/video2
+```
+
+**打补丁前**(2026-10-27 在本机实测,黑屏根源被直接复现):
+
+```
+S_FMT  (YUYV)      : 0 (OK)
+REQBUFS(4, MMAP)   : 0 (driver gave 4) (OK)
+STREAMON           : 0 (OK)
+DQBUF memory=MMAP  : 0 (OK)
+DQBUF memory=0     : -1 (Invalid argument)      ← 腾讯会议黑屏的根源
+QBUF requeue mem=0 : -1 (Invalid argument)
+```
+
+**打补丁后**(本仓库修复脚本应用后的真实输出):
+
+```
+open(/dev/video2)           : OK
+S_FMT  (YUYV)      : 0 (OK)
+REQBUFS(4, MMAP)  : 0 (driver gave 4) (OK)
+QBUF(0) proper    : 0 (OK)
+QBUF(1) proper    : 0 (OK)
+QBUF(2) proper    : 0 (OK)
+QBUF(3) proper    : 0 (OK)
+STREAMON           : 0 (OK)
+DQBUF memory=MMAP       : 0 (OK)
+DQBUF memory=0(wemeet)  : 0 (OK)
+QBUF requeue mem=0      : 0 (OK)
+QBUF requeue mem=MMAP   : 0 (OK)
 ```
 
 ## 回滚与维护
