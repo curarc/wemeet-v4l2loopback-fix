@@ -187,6 +187,8 @@ sudo ./fix-wemeet-virtual-cam.sh --restore   # 恢复原版驱动源码并重编
   这是 wemeet 与 v4l2loopback 双方的"合谋 bug";若新版 wemeet 修复了 `memory`
   字段,补丁变得多余但无害。也欢迎上游参考本分析:v4l2loopback 可以考虑宽容处理
   `memory=0`,与内核 vb2 的行为保持一致。
+- **为啥打完补丁还是看到黑色的画面？**
+  有可能是因为刚装完obs和腾讯会议软件，然后直接打了补丁。重启一下系统就可以啦！
 
 ## English summary
 
